@@ -34,6 +34,19 @@ public class TradeId implements Serializable{
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
+
+	public TradeId(String tradeId, Integer version) {
+		super();
+		this.tradeId = tradeId;
+		this.version = version;
+	}
+
+	public TradeId() {
+		super();
+	}
+	
+	
+	
 	
 	
 }

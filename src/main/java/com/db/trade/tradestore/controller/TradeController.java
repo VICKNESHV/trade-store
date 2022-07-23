@@ -33,7 +33,7 @@ public class TradeController {
         @ApiResponse(code = 400, message = "The request could not be parsed.", response = StatusMessageResponse.class),
         @ApiResponse(code = 500, message = "The service encountered an internal server error.", response = StatusMessageResponse.class) })
     @PostMapping("/trade")
-	public ResponseEntity<StatusMessageResponse> addUpdateStore(@RequestBody TradeRequest tradeRequest) throws TradeInvalidException {
+	public ResponseEntity<StatusMessageResponse> addUpdateTrade(@RequestBody TradeRequest tradeRequest) throws TradeInvalidException {
 		return new ResponseEntity<StatusMessageResponse>(tradeService.addUpdatetrade(tradeRequest), HttpStatus.OK);
 	}
 

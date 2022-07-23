@@ -76,5 +76,22 @@ public class Trade {
 	public void setExpired(Boolean expired) {
 		this.expired = expired;
 	}
+
+	public Trade(TradeId tradeId, String counterPartyId, String bookId, Date maturityDate, Date createdDate,
+			Boolean expired) {
+		super();
+		this.tradeId = tradeId;
+		this.counterPartyId = counterPartyId;
+		this.bookId = bookId;
+		this.maturityDate = maturityDate;
+		this.createdDate = createdDate;
+		this.expired = expired;
+	}
+
+	public Trade() {
+		super();
+	}
+	
+	
 	
 }

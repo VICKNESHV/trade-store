@@ -51,11 +51,10 @@ public class TradeService {
 								TradeMessageCode.SYSTEM_ERROR);
 					}
 				} else {
-					trade = new Trade();
-					TradeId tradeId = new TradeId();
+					TradeId tradeId = new TradeId(tradeRequest.getTradeId(), tradeRequest.getVersion());
 					tradeId.setTradeId(tradeRequest.getTradeId());
 					tradeId.setVersion(tradeRequest.getVersion());
-					trade.setTradeId(tradeId);
+					trade = new Trade(tradeId, tradeRequest.getCounterPartyId(), tradeRequest.getBookId(), Date.valueOf(tradeRequest.getMaturityDate()),Date.valueOf(LocalDate.now()),false);  
 					statusMessage.setMessage("Trade is successfully inserted into the database");
 				}
 				trade.setBookId(tradeRequest.getBookId());
@@ -71,16 +70,9 @@ public class TradeService {
 				throw new TradeInvalidException("Trade version is invalid", TradeMessageCode.SYSTEM_ERROR);
 			}
 		} else {
-			Trade trade = new Trade();
-			TradeId tradeId = new TradeId();
-			tradeId.setTradeId(tradeRequest.getTradeId());
-			tradeId.setVersion(tradeRequest.getVersion());
-			trade.setTradeId(tradeId);
-			trade.setBookId(tradeRequest.getBookId());
-			trade.setCounterPartyId(tradeRequest.getCounterPartyId());
-			trade.setCreatedDate(Date.valueOf(LocalDate.now()));
-			trade.setExpired(false);
-			trade.setMaturityDate(Date.valueOf(tradeRequest.getMaturityDate()));
+			TradeId tradeId = new TradeId(tradeRequest.getTradeId(), tradeRequest.getVersion());
+			Trade trade = new Trade(tradeId, tradeRequest.getCounterPartyId(), tradeRequest.getBookId(),
+					Date.valueOf(tradeRequest.getMaturityDate()), Date.valueOf(LocalDate.now()), false);
 			statusMessage.setType(TypeEnum.SUCCESS);
 			statusMessage.setMessage("Trade is successfully inserted into the database");
 			statusMessages.add(statusMessage);
