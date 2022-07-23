@@ -1,0 +1,53 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+	id 'org.hidetake.swagger.generator' version '2.19.2'
+}
+
+group = 'com.db.trade'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = ["src/main/java","gen/trade/src/main/java"]
+     exclude("/test/**")
+    }
+  }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.27'
+	
+	implementation 'mysql:mysql-connector-java:8.0.29'
+}
+
+swaggerSources {
+    trade {
+        inputFile = file("/misc/resources/specification/trade.yaml")
+        code {
+        	outputDir = file("/gen/trade")
+            language = 'spring'
+            configFile = file("/misc/resources/config/swagger_codegen.json")
+			components = ['models','apis']
+        }
+    }
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

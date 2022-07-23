@@ -1,0 +1,149 @@
+swagger: "3.0"
+info:
+  title: "Store"
+  version: "1.0.0"
+  description: "Api to add/update trade store"
+  contact:
+    name: "Vicknesh"
+    email: "vicknesh.moorthi@gmail.com"
+    url: "https://github.com/"
+basePath: "/api"
+tags:
+- name: "trade store"
+  description: "Manage Trades"
+schemes:
+- "https"
+- "http"
+paths:
+  /trade:
+    post:
+      tags:
+      - "trade store"
+      summary: "Add/Update a trade to the store"
+      description: "Add/Update a trade to the store"
+      operationId: "addUpdateStore"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "trade"
+        description: "Request to add/update a trade to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/TradeRequest"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/TradeResponse"
+        "400":
+          description: "The request could not be parsed."
+          schema:
+            $ref: "#/definitions/StatusMessageResponse"
+        "500":
+          description: "The service encountered an internal server error."
+          schema:
+            $ref: "#/definitions/StatusMessageResponse"      
+    get:
+      tags:
+      - "trade store"
+      summary: "Returns all the trades from the store"
+      description: "Returns the list of trades executed"
+      operationId: "listTrades"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "The service request was processed successfully."
+          schema:
+            items:
+              $ref: "#/definitions/TradeResponse"
+        "400":
+          description: "The request could not be parsed."
+          schema:
+            $ref: "#/definitions/StatusMessageResponse"
+        "500":
+          description: "The service encountered an internal server error."
+          schema:
+            $ref: "#/definitions/StatusMessageResponse"        
+definitions:
+  TradeRequest:
+    type: "object"
+    required:
+    - "tradeId"
+    - "version"
+    - "counterPartyId"
+    - "bookId"
+    - "maturityDate"
+    properties:
+      tradeId:
+        description: "Unique identifier of trade"
+        type: "string"
+      version:
+        type: integer
+        description: "Version number of the trade"
+      counterPartyId:
+        type: "string"
+        description: "Counter party id of the trade"
+      bookId:
+        type: "string"
+        description: "Book identifier of the trade"
+      maturityDate:
+        type: string
+        format: date
+        description: "Maturity date of the trade"
+      isTradeExpired:
+        type: boolean  
+  TradeResponse:
+    type: "object"
+    required:
+    properties:
+      tradeId:
+        description: "Unique identifier of trade"
+        type: "string"
+      version:
+        type: integer
+        description: "Version number of the trade"
+      counterPartyId:
+        type: "string"
+        description: "Counter party id of the trade"
+      bookId:
+        type: "string"
+        description: "Book identifier of the trade"
+      tradeCreatedDate:
+        type: "string"
+        format: date
+        description: "Date when the trade was executed"  
+      maturityDate:
+        type: string
+        format: date
+        description: "Maturity date of the trade"
+      isTradeExpired:
+        type: boolean           
+  StatusMessageResponse:
+    type: "object"
+    properties:
+      statusMessages:
+        type: "array"
+        items:
+          $ref: "#/definitions/StatusMessage"
+        minItems: 1
+    required:
+      - statusMessages
+  StatusMessage:
+    type: "object"
+    properties:
+      type:
+        type: string
+        enum:
+          - INFORMATION
+          - WARNING
+          - ERROR
+          - SUCCESS
+      code:
+          type: "string"
+      message:
+          type: "string"
